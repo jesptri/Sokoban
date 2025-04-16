@@ -40,7 +40,7 @@ my_map * move(char direction, struct my_map *p_map);
  */
 
 
-int comparaison_struct(my_map *map_1, my_map *map_2);
+int struct_comparison(my_map *map_1, my_map *map_2);
 
 /**
  * @brief Compare two structures of map

@@ -29,7 +29,7 @@ int main(void)
 
     printf(" | test du replay...");
 
-    assert(comparaison_struct(p, r));
+    assert(struct_comparison(p, r));
     
     printf("OK!\n");
 

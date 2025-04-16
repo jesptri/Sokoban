@@ -48,28 +48,28 @@ my_map *move(char direction, my_map * p_map)
 
     // creating the result
 
-    my_map *resultat = malloc(sizeof(my_map)); 
-    my_map *sortie = malloc(sizeof(my_map));
+    my_map *result = malloc(sizeof(my_map)); 
+    my_map *output = malloc(sizeof(my_map));
 
     // if the player can't move
     
-    sortie->width = width;
-    sortie->height = height;
-    sortie->hposition = hposition;
-    sortie->vposition = vposition;
+    output->width = width;
+    output->height = height;
+    output->hposition = hposition;
+    output->vposition = vposition;
 
-    resultat->width = width;
-    resultat->height = height;
+    result->width = width;
+    result->height = height;
 
     char *new_map = malloc(sizeof(char[width*height]));
     
-    sortie->map = p_map->map;
+    output->map = p_map->map;
 
     for (int k = 0 ; k < width*height ; k++)
 
     {
         new_map[k] = p_map->map[k];
-        sortie->map[k]=p_map->map[k];
+        output->map[k]=p_map->map[k];
     }
 
     if (direction == 'N')
@@ -79,7 +79,7 @@ my_map *move(char direction, my_map * p_map)
             (p_map->map[(vposition - 1)*width + hposition]) == '#')
 
         {
-            return sortie;
+            return output;
         }
 
         else if ((p_map->map[(vposition - 1)*width + hposition]) == ' ' ||
@@ -89,10 +89,10 @@ my_map *move(char direction, my_map * p_map)
                     new_map[(vposition - 1)*width + hposition] = '@' ;
                     new_map[(vposition)*width + hposition] = ' ' ; 
                     
-                    resultat->map = new_map ;
-                    resultat->hposition = hposition ;
-                    resultat->vposition = vposition + 1 ;
-                    return resultat;         
+                    result->map = new_map ;
+                    result->hposition = hposition ;
+                    result->vposition = vposition + 1 ;
+                    return result;         
         }
 
         else if ((p_map->map[(vposition - 1)*width + hposition]) == '$')
@@ -102,7 +102,7 @@ my_map *move(char direction, my_map * p_map)
                 (p_map->map[(vposition - 2)*width + hposition]) == '#')
 
                 {
-                    return sortie;
+                    return output;
                 }
 
         }
@@ -115,7 +115,7 @@ my_map *move(char direction, my_map * p_map)
             (p_map->map[(vposition + 1)*width + hposition]) == '#')
 
         {
-            return sortie;
+            return output;
         }
         else if ((p_map->map[(vposition + 1)*width + hposition]) == ' ' ||
                  (p_map->map[(vposition + 1)*width + hposition]) == '.')
@@ -124,10 +124,10 @@ my_map *move(char direction, my_map * p_map)
                     new_map[(vposition + 1)*width + hposition] = '@' ;
                     new_map[(vposition)*width + hposition] = ' ' ; 
                     
-                    resultat->map = new_map ;
-                    resultat->hposition = hposition ;
-                    resultat->vposition = vposition - 1 ;
-                    return resultat;         
+                    result->map = new_map ;
+                    result->hposition = hposition ;
+                    result->vposition = vposition - 1 ;
+                    return result;         
         }
 
         else if ((p_map->map[(vposition + 1)*width + hposition]) == '$')
@@ -137,7 +137,7 @@ my_map *move(char direction, my_map * p_map)
                 (p_map->map[(vposition + 2)*width + hposition]) == '#')
 
                 {
-                    return sortie;
+                    return output;
                 }
 
         }
@@ -151,7 +151,7 @@ my_map *move(char direction, my_map * p_map)
             (p_map->map[vposition*width + hposition - 1]) == '#')
 
         {
-            return sortie;
+            return output;
         }
 
         else if ((p_map->map[vposition*width + hposition - 1]) == ' ' ||
@@ -160,10 +160,10 @@ my_map *move(char direction, my_map * p_map)
         {
                     new_map[vposition*width + hposition - 1] = '@' ;
                     new_map[vposition*width + hposition] = ' ' ;
-                    resultat->map = new_map ;
-                    resultat->hposition = hposition - 1 ;
-                    resultat->vposition = vposition ; 
-                    return resultat;         
+                    result->map = new_map ;
+                    result->hposition = hposition - 1 ;
+                    result->vposition = vposition ; 
+                    return result;         
         }
 
         else if ((p_map->map[vposition*width + hposition - 1]) == '$')
@@ -172,7 +172,7 @@ my_map *move(char direction, my_map * p_map)
             if ((p_map->map[vposition*width + hposition - 2]) == '*' || 
                 (p_map->map[vposition*width + hposition - 2]) == '#')
                 {
-                    return sortie;
+                    return output;
                 }
         }
 
@@ -185,7 +185,7 @@ my_map *move(char direction, my_map * p_map)
             (p_map->map[vposition*width + hposition + 1]) == '#')
 
         {
-            return sortie;
+            return output;
         }
 
         else if ((p_map->map[vposition*width + hposition + 1]) == ' ' ||
@@ -194,10 +194,10 @@ my_map *move(char direction, my_map * p_map)
         {
                     new_map[vposition*width + hposition + 1] = '@' ;
                     new_map[vposition*width + hposition] = ' ' ; 
-                    resultat->map = new_map ; 
-                    resultat->hposition = hposition + 1 ;
-                    resultat->vposition = vposition ;
-                    return resultat;         
+                    result->map = new_map ; 
+                    result->hposition = hposition + 1 ;
+                    result->vposition = vposition ;
+                    return result;         
         }
 
         else if ((p_map->map[vposition*width + hposition + 1]) == '$')
@@ -207,7 +207,7 @@ my_map *move(char direction, my_map * p_map)
                 (p_map->map[vposition*width + hposition + 2]) == '#')
 
                 {
-                    return sortie ;
+                    return output ;
                 }
 
         } 
@@ -218,13 +218,13 @@ my_map *move(char direction, my_map * p_map)
 
     {
         printf("problème") ;
-        return resultat ;
+        return result ;
     }
 
-    return resultat ;
+    return result ;
 
-    free(sortie);
-    free(resultat);
+    free(output);
+    free(result);
     free(new_map);
 
 }
@@ -233,7 +233,7 @@ my_map *move(char direction, my_map * p_map)
 // function comparing two my_map struct
 // function returning 1 or 0
 
-int comparaison_struct(my_map * map_1, my_map * map_2)
+int struct_comparison(my_map * map_1, my_map * map_2)
 
 {
 
