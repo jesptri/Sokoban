@@ -11,8 +11,7 @@
 #define MAX_LEVELS 100
 #define LEVEL_DIR "data"
 
-void go_dir(int width, int height, char level[height][width],
-            int dx, int dy, int *p_x, int *p_y) {
+void go_dir(int width, int height, char level[height][width], int dx, int dy, int *p_x, int *p_y) {
     int x = *p_x;
     int y = *p_y;
     int nx = x + dx;
@@ -116,6 +115,8 @@ int main() {
             fprintf(stderr, "Erreur chargement niveau : %s\n", levels[current]);
             continue;
         }
+
+        level[y][x] = '@';
 
         printf("\n=== Niveau %d : %s ===\n", current + 1, levels[current]);
         GUI_init("Sokoban", width, height);
