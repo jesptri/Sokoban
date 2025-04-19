@@ -9,7 +9,7 @@ int main(void)
 
 {
 
-  printf(" | test de move dans un premier cas...\n");
+  printf(" | First test...\n");
 
   // creating the different maps to compare them
 
@@ -18,13 +18,14 @@ int main(void)
   my_map *final_map = malloc(sizeof(my_map));
 
   final_map = loader("data/soko_move_1_S.in");
+  printf(final_map);
 
   my_map *moved_map = malloc(sizeof(my_map));
 
   moved_map = move('S', loader("data/soko_move_1.in"));
 
-  printf("%s\n", final_map->map);
-  printf("%s\n", moved_map->map);
+  // printf("%s\n", final_map->map);
+  // printf("%s\n", moved_map->map);
 
   printf(" | OK!\n");
 
@@ -33,7 +34,7 @@ int main(void)
 
   // second example
 
-  printf(" | test de move dans un second cas...\n");
+  printf(" | Second test...\n");
 
   my_map *final_map_2 = malloc(sizeof(my_map));
 
@@ -53,7 +54,7 @@ int main(void)
 
   // third example
 
-  printf(" | test de move dans un troisième cas...\n");
+  printf(" | Third test...\n");
 
   my_map *final_map_3 = malloc(sizeof(my_map));
 
