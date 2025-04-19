@@ -18,16 +18,16 @@ int main(void)
   my_map *final_map = malloc(sizeof(my_map));
 
   final_map = loader("data/soko_move_1_S.in");
-  printf(final_map);
 
   my_map *moved_map = malloc(sizeof(my_map));
 
   moved_map = move('S', loader("data/soko_move_1.in"));
 
-  // printf("%s\n", final_map->map);
-  // printf("%s\n", moved_map->map);
+  printf("%s\n", final_map->map);
+  printf("%s\n", moved_map->map);
 
-  printf(" | OK!\n");
+  if assert(final_map == moved_map):
+    printf(" | OK!\n");
 
   free(final_map);
   free(moved_map);

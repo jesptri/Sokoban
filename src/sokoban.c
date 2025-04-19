@@ -217,7 +217,7 @@ my_map *move(char direction, my_map * p_map)
     else
 
     {
-        printf("problème") ;
+        printf("problem") ;
         return result ;
     }
 
