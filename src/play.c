@@ -49,7 +49,7 @@ int main(int argc, char * argv[])
             GUI_show_map_to_play(width, height, map);
             break;
         case SDLK_LEFT:
-            map_to_play = move('O', map_to_play);
+            map_to_play = move('W', map_to_play);
             GUI_show_map_to_play(width, height, map);
             break;
         case 'q':

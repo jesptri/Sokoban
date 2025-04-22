@@ -28,8 +28,8 @@ check-syntax: example-main.o read-file-formatted.o read-file-text.o \
 example-main: example-main.o
 	$(CC) $(CFLAGS) -o example-main example-main.o
 
-# sokoban: sokoban.o
-# 	$(CC) $(CFLAGS) -o sokoban sokoban.o
+sokoban: sokoban.o replay.o loader.o
+	$(CC) $(CFLAGS) -o sokoban sokoban.o replay.o loader.o
 
 test-loader: test-loader.o loader.o sokoban.o
 	$(CC) $(CFLAGS) -o test-loader test-loader.o loader.o sokoban.o
@@ -37,8 +37,8 @@ test-loader: test-loader.o loader.o sokoban.o
 test-move:test-move.o sokoban.o loader.o
 	$(CC) $(CFLAGS) -o test-move test-move.o sokoban.o loader.o
 
-test-replay:test-replay.o
-	$(CC) $(CFLAGS) -o test-replay test-replay.o sokoban.o
+test-replay:test-replay.o sokoban.o loader.o
+	$(CC) $(CFLAGS) -o test-replay test-replay.o sokoban.o loader.o
 
 replay:replay.o loader.o sokoban.o
 	$(CC) $(CFLAGS) -o replay replay.o loader.o sokoban.o

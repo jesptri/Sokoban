@@ -92,6 +92,4 @@ my_map * loader(char *file_adress)
 
     return result;
     
-    free(result);
-    
 }
