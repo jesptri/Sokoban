@@ -1,73 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
-#include <SDL2/SDL.h>
-
-#include "sokoban.h"
 #include "loader.h"
-#include "gui.h"
+#include "app-ex-gui.c"
+#include "sokoban.h"
 
-typedef struct my_map my_map;
-
-int main(int argc, char * argv[])
-
-{
-
-    my_map * map_to_play = loader(argv[1]);
-
-    int width = map_to_play->width;
-    int height = map_to_play->height;
-
-    char * map = map_to_play->map;
-
-    GUI_init("Window for Sokoban game", width, height);
-
-    GUI_show_map_to_play(width, height, map);
-
-    // I prefer use an int instead of true and false, but there is no difference
-
-    int A = 0 ;
-
-    while(A == 0)
-
-    {
-
-        switch(GUI_get_key())
-
-        {
-
-        case SDLK_UP:
-            map_to_play = move('N', map_to_play);
-            GUI_show_map_to_play(width, height, map);
-            break;
-        case SDLK_DOWN:
-            map_to_play = move('S', map_to_play);
-            GUI_show_map_to_play(width, height, map);
-            break;
-        case SDLK_RIGHT:
-            map_to_play = move('E', map_to_play);
-            GUI_show_map_to_play(width, height, map);
-            break;
-        case SDLK_LEFT:
-            map_to_play = move('W', map_to_play);
-            GUI_show_map_to_play(width, height, map);
-            break;
-        case 'q':
-            A = 1;
-            break;
-
+void print_terminal_map(int width, int height, char *level) {
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            printf("%c", level[i * width + j]);
         }
+        printf("\n");
+    }
+}
 
-        if (A != 0)
-
-        {
-            break;
-        }
-
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s fichier_niveau.in\n", argv[0]);
+        return EXIT_FAILURE;
     }
 
-    GUI_close();
+    char *filename = argv[1];
+    int width, height, x = 0, y = 0;
+    char *level = NULL;
 
+    if (!load_level(filename, &width, &height, &level, &x, &y)) {
+        fprintf(stderr, "Erreur chargement niveau : %s\n", filename);
+        return EXIT_FAILURE;
+    }
+
+    bool stop = false;
+    print_terminal_map(width, height, level);
+
+    while (!stop) {
+        printf("\nDéplacer (n/s/e/w) ou quitter (q) : ");
+        int key = getchar();
+        while (key == '\n') key = getchar(); // ignorer les retours à la ligne
+
+        switch (key) {
+            case 'n': go_dir(width, height, level, 0, -1, &x, &y); break;
+            case 's': go_dir(width, height, level, 0, 1, &x, &y); break;
+            case 'w': go_dir(width, height, level, -1, 0, &x, &y); break;
+            case 'e': go_dir(width, height, level, 1, 0, &x, &y); break;
+            case 'q': stop = true; break;
+            default: printf("Commande invalide\n"); break;
+        }
+
+        print_terminal_map(width, height, level);
+
+        if (check_victory(width, height, level)) {
+            printf("\n>>> Victoire !\n");
+            stop = true;
+        }
+    }
+
+    free(level);
     return EXIT_SUCCESS;
-
 }

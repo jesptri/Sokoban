@@ -110,7 +110,7 @@ void GUI_init(char *title, int width, int height) {
 #endif
 }
 
-void GUI_show(int width, int height, char level[height][width]) {
+void GUI_show(int width, int height, char *level) {
 #ifdef GUI
     SDL_RenderClear(renderer);
 
@@ -123,7 +123,7 @@ void GUI_show(int width, int height, char level[height][width]) {
                 ICON_SIZE };
 
             for (int obj = BOY; obj <= EMPTY; obj++) {
-                if (level[row][col] == symbols[obj]) {
+                if (level[row * width + col] == symbols[obj]) {
                     SDL_RenderCopy(renderer, textures[obj], NULL, &area);
                 }
             }

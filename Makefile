@@ -1,4 +1,4 @@
-_GUI = $(if $(NOGUI),,-D GUI -Werror)
+_GUI = $(if $(NOGUI),,-DGUI -Werror)
 _DEBUG = $(if $(DEBUG),-D DEBUG,)
 _OPT = $(if $(OPT),-O3 -flto,)
 CC = gcc
