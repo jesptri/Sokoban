@@ -10,3 +10,11 @@ my_map * loader(char *file_adress);
  *
  * @param file_adress a char* representing the adress of the file
  */
+
+ #ifndef LOADER_H
+ #define LOADER_H
+ 
+ int load_level(const char *filename, int *width, int *height, char **level, int *p_x, int *p_y);
+ 
+ #endif
+

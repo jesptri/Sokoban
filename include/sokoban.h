@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 struct my_map
 
@@ -81,3 +82,11 @@ my_map * replay(struct my_map *map_arg, int L, char *moves);
  * 
  * @param moves a *char representing the potential sequence of moves we can do
  */
+
+ #ifndef SOKOBAN_H
+ #define SOKOBAN_H
+ 
+ void go_dir(int width, int height, char *level, int dx, int dy, int *p_x, int *p_y);
+ bool check_victory(int width, int height, char *level);
+ 
+ #endif

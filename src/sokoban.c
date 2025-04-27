@@ -133,6 +133,54 @@ my_map *move(char direction, my_map *p_map) {
     return result;
 }
 
+void go_dir(int width, int height, char *level, int dx, int dy, int *p_x, int *p_y) {
+    int x = *p_x;
+    int y = *p_y;
+    int nx = x + dx;
+    int ny = y + dy;
+    int nnx = x + 2*dx;
+    int nny = y + 2*dy;
+
+    if (nx < 0 || ny < 0 || nx >= width || ny >= height) return;
+
+    char dest = level[ny * width + nx];
+    char behind = (nnx >= 0 && nnx < width && nny >= 0 && nny < height) ? level[nny * width + nnx] : '#';
+
+    if (dest == '#') return;
+
+    if (dest == '$' || dest == '*') {
+        if (behind == ' ' || behind == '.') {
+            level[nny * width + nnx] = (behind == '.') ? '*' : '$';
+            level[ny * width + nx] = (dest == '*') ? '.' : ' ';
+        } else {
+            return;
+        }
+    } else if (!(dest == ' ' || dest == '.' || dest == '+')) {
+        return;
+    }
+
+    if (level[y * width + x] == '@')
+        level[y * width + x] = ' ';
+    else if (level[y * width + x] == '+')
+        level[y * width + x] = '.';
+
+    if (dest == '.' || dest == '*')
+        level[ny * width + nx] = '+';
+    else
+        level[ny * width + nx] = '@';
+
+    *p_x = nx;
+    *p_y = ny;
+}
+
+bool check_victory(int width, int height, char *level) {
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            if (level[y * width + x] == '.') return false;
+        }
+    }
+    return true;
+}
 
 
 

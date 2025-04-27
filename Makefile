@@ -49,8 +49,8 @@ replay:replay.o loader.o sokoban.o
 test_linked_map:test_linked_map.o linked_list_map.o loader.o sokoban.o
 	$(CC) $(CFLAGS) -o test_linked_map test_linked_map.o linked_list_map.o loader.o sokoban.o
 
-play: play.o sokoban.o loader.o gui.o
-	$(CC) $(CFLAGS) -o play play.o sokoban.o loader.o gui.o $(LDFLAGS)
+play: play.o loader.o sokoban.o
+	$(CC) $(CFLAGS) -o play play.o loader.o sokoban.o
 
 example-string: example-string.o
 	$(CC) $(CFLAGS) -o example-string example-string.o
@@ -72,8 +72,8 @@ app-ex-loader: app-ex-loader.o
 	$(CC) $(CFLAGS) -o app-ex-loader app-ex-loader.o
 
 # the app-ex-gui app. Beware, for graphical applications, you MUST add $(LDFLAGS)!
-app-ex-gui: app-ex-gui.o gui.o
-	$(CC) $(CFLAGS) -o app-ex-gui app-ex-gui.o gui.o $(LDFLAGS)
+app-ex-gui: app-ex-gui.o gui.o loader.o sokoban.o
+	$(CC) $(CFLAGS) -o app-ex-gui app-ex-gui.o gui.o loader.o sokoban.o $(LDFLAGS)
 
 # put all your applications and tests executables as prerequisite of this rule
 # \ allows to go to the next line

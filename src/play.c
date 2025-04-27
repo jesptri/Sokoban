@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
 #include "loader.h"
-#include "app-ex-gui.c"
 #include "sokoban.h"
 
 void print_terminal_map(int width, int height, char *level) {
@@ -21,12 +19,11 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    char *filename = argv[1];
     int width, height, x = 0, y = 0;
     char *level = NULL;
 
-    if (!load_level(filename, &width, &height, &level, &x, &y)) {
-        fprintf(stderr, "Erreur chargement niveau : %s\n", filename);
+    if (!load_level(argv[1], &width, &height, &level, &x, &y)) {
+        fprintf(stderr, "Erreur chargement niveau : %s\n", argv[1]);
         return EXIT_FAILURE;
     }
 
@@ -36,7 +33,7 @@ int main(int argc, char *argv[]) {
     while (!stop) {
         printf("\nDéplacer (n/s/e/w) ou quitter (q) : ");
         int key = getchar();
-        while (key == '\n') key = getchar(); // ignorer les retours à la ligne
+        while (key == '\n') key = getchar(); // Ignorer entrée
 
         switch (key) {
             case 'n': go_dir(width, height, level, 0, -1, &x, &y); break;

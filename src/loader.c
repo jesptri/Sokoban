@@ -93,3 +93,39 @@ my_map * loader(char *file_adress)
     return result;
     
 }
+
+int load_level(const char *filename, int *width, int *height, char **level, int *p_x, int *p_y) {
+    FILE *file = fopen(filename, "r");
+    if (!file) return 0;
+
+    if (fscanf(file, "%d %d\n", width, height) != 2) {
+        fclose(file);
+        return 0;
+    }
+
+    *level = malloc((*width) * (*height) * sizeof(char));
+    if (!*level) {
+        fclose(file);
+        return 0;
+    }
+
+    // Initialiser avec des espaces
+    for (int i = 0; i < (*width) * (*height); i++) {
+        (*level)[i] = ' ';
+    }
+
+    char buffer[256];
+    for (int i = 0; i < *height; i++) {
+        if (fgets(buffer, sizeof(buffer), file) == NULL) break;
+        for (int j = 0; j < *width && buffer[j] != '\0' && buffer[j] != '\n' && buffer[j] != '\r'; j++) {
+            (*level)[i * (*width) + j] = buffer[j];
+            if (buffer[j] == '@' || buffer[j] == '+') {
+                *p_x = j;
+                *p_y = i;
+            }
+        }
+    }
+
+    fclose(file);
+    return 1;
+}
