@@ -7,13 +7,11 @@
 #include "linked_list_map.h"
 #include "sokoban.h"
 
-int main(void)
-
-{
+int main(void){
 
     printf(" | test de linked_map...\n");
 
-    linked_list_int l_map = malloc(sizeof(linked_list_int));
+    linked_list_map l_map = malloc(sizeof(linked_list_map));
 
     my_map * L_1 = malloc(sizeof(my_map));
     my_map * L_2 = malloc(sizeof(my_map));
@@ -21,7 +19,7 @@ int main(void)
 
     l_map = nil();
 
-// both * my_map constituting linked_list_map
+    // both * my_map constituting linked_list_map
 
     L_1 = loader("data/soko1.in");
     L_2 = loader("data/soko2.in");
@@ -31,11 +29,9 @@ int main(void)
     
     L = get_element(l_map, 1);
 
-// checking if both my_map are similar
-    
-    printf("%s\n", L_1->map);
-    printf("%s\n", L->map);
+    // checking if both my_map are similar
 
+    assert(L_1->map == L->map);
 
     printf(" | OK!\n");
 

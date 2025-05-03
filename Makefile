@@ -43,11 +43,17 @@ test-replay:test-replay.o sokoban.o loader.o
 replay:replay.o loader.o sokoban.o
 	$(CC) $(CFLAGS) -o replay replay.o loader.o sokoban.o
 
-# linked_list_map:linked_list_map.o sokoban.o
-# 	$(CC) $(CFLAGS) -o linked_list_map linked_list_map.o sokoban.o
+linked_list_map:linked_list_map.o sokoban.o loader.o
+	$(CC) $(CFLAGS) -o linked_list_map linked_list_map.o sokoban.o loader.o
 
-test_linked_map:test_linked_map.o linked_list_map.o loader.o sokoban.o
-	$(CC) $(CFLAGS) -o test_linked_map test_linked_map.o linked_list_map.o loader.o sokoban.o
+test_linked_list_map:test_linked_list_map.o linked_list_map.o loader.o sokoban.o
+	$(CC) $(CFLAGS) -o test_linked_list_map test_linked_list_map.o linked_list_map.o loader.o sokoban.o
+
+queue_map:queue_map.o
+	$(CC) $(CFLAGS) -o queue_map queue_map.o
+
+test_queue_map:test_queue_map.o queue_map.o loader.o sokoban.o
+	$(CC) $(CFLAGS) -o test_queue_map test_queue_map.o queue_map.o loader.o sokoban.o
 
 play: play.o loader.o sokoban.o
 	$(CC) $(CFLAGS) -o play play.o loader.o sokoban.o
