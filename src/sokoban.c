@@ -6,9 +6,7 @@
 
 // function of the 5.1
 
-void print_map(my_map *MY_MAP)
-
-{
+void print_map(my_map *MY_MAP){
 
     int hauteur = MY_MAP->height ;
     int largeur = MY_MAP->width ;
@@ -19,13 +17,9 @@ void print_map(my_map *MY_MAP)
     printf("position_h = %d and position_v = %d", positionh, positionv);
     printf("\n");
 
-    for (int j = 0 ; j < hauteur ; j++)
-
-    {
+    for (int j = 0 ; j < hauteur ; j++){
     
-        for (int i = 0 ; i < largeur ; i++)
-    
-        {
+        for (int i = 0 ; i < largeur ; i++){
             printf("%c", MAP[j*largeur + i]);
         }
 
@@ -37,7 +31,8 @@ void print_map(my_map *MY_MAP)
 
 // function of the 5.3
 
-my_map *move(char direction, my_map *p_map) {
+my_map *move(char direction, my_map *p_map){
+
     int height = p_map->height;
     int width = p_map->width;
     int h = p_map->hposition;
@@ -48,7 +43,7 @@ my_map *move(char direction, my_map *p_map) {
     result->height = height;
 
     char *new_map = malloc(sizeof(char) * width * height);
-    for (int k = 0; k < width * height; k++) {
+    for (int k = 0; k < width * height; k++){
         new_map[k] = p_map->map[k];
     }
 
@@ -68,7 +63,7 @@ my_map *move(char direction, my_map *p_map) {
     char next2_char = p_map->map[next2];
 
     // Fonction utilitaire pour mettre à jour la case du joueur actuel
-    void clear_current() {
+    void clear_current(){
         if (cur_char == '+')
             new_map[current] = '.';
         else
@@ -76,31 +71,31 @@ my_map *move(char direction, my_map *p_map) {
     }
 
     // Si mur => bloqué
-    if (next_char == '#') {
+    if (next_char == '#'){
         free(new_map);
         free(result);
         return p_map;
     }
 
     // Si case vide
-    if (next_char == ' ') {
+    if (next_char == ' '){
         clear_current();
         new_map[next] = '@';
     }
 
     // Si cible
-    else if (next_char == '.') {
+    else if (next_char == '.'){
         clear_current();
         new_map[next] = '+';
     }
 
     // Si caisse simple
-    else if (next_char == '$') {
-        if (next2_char == ' ' || next2_char == '.') {
+    else if (next_char == '$'){
+        if (next2_char == ' ' || next2_char == '.'){
             clear_current();
             new_map[next] = '@';
             new_map[next2] = (next2_char == '.') ? '*' : '$';
-        } else {
+        } else{
             free(new_map);
             free(result);
             return p_map;
@@ -108,12 +103,12 @@ my_map *move(char direction, my_map *p_map) {
     }
 
     // Si caisse sur cible
-    else if (next_char == '*') {
-        if (next2_char == ' ' || next2_char == '.') {
+    else if (next_char == '*'){
+        if (next2_char == ' ' || next2_char == '.'){
             clear_current();
             new_map[next] = '+';
             new_map[next2] = (next2_char == '.') ? '*' : '$';
-        } else {
+        } else{
             free(new_map);
             free(result);
             return p_map;
@@ -121,7 +116,7 @@ my_map *move(char direction, my_map *p_map) {
     }
 
     // Si rien de prévu, retour à l'identique
-    else {
+    else{
         free(new_map);
         free(result);
         return p_map;
@@ -133,7 +128,7 @@ my_map *move(char direction, my_map *p_map) {
     return result;
 }
 
-void go_dir(int width, int height, char *level, int dx, int dy, int *p_x, int *p_y) {
+void go_dir(int width, int height, char *level, int dx, int dy, int *p_x, int *p_y){
     int x = *p_x;
     int y = *p_y;
     int nx = x + dx;
@@ -173,41 +168,15 @@ void go_dir(int width, int height, char *level, int dx, int dy, int *p_x, int *p
     *p_y = ny;
 }
 
-bool check_victory(int width, int height, char *level) {
+bool check_victory(int width, int height, char *level){
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
             if (level[y * width + x] == '.') return false;
+            if (level[y * width + x] == '$') return false;
+            if (level[y * width + x] == '+') return false;
         }
     }
     return true;
-}
-
-
-
-int struct_comparison(my_map * map_1, my_map * map_2){
-
-    int height1 = map_1->height ;
-    int width1 = map_1->width ;
-    char * map1 = map_1->map ;
-    int x_1 = map_1->hposition ; 
-    int y_1 = map_1->vposition ; 
-
-    int height2 = map_2->height ;
-    int width2 = map_2->width ;
-    char * map2 = map_2->map ;
-    int x_2 = map_2->hposition ; 
-    int y_2 = map_2->vposition ; 
-
-    if(height1 != height2 || width1 != width2 || x_1 != x_2 || y_1 != y_2){
-        return 0;
-    } else {
-        for(int k = 0 ; k < height1 * width1 ; k++){
-            if (map1[k] != map2[k]){
-                return 0;
-            }
-        }
-    }
-    return 1;
 }
 
 // function of the 5.4

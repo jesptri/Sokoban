@@ -2,9 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-struct my_map
-
-{
+struct my_map{
     //height of the structure
     int height;
     //width of the structure
@@ -38,30 +36,6 @@ my_map * move(char direction, struct my_map *p_map);
  * @param direction a char representing the direction in which we want to move the player
  *
  * @param p_map a pointer to a structure representing the initial map
- */
-
-
-int struct_comparison(my_map *map_1, my_map *map_2);
-
-/**
- * @brief Compare two structures of map
-
- * Returns 1 if they are similar, 0 if not
- *
- * @param map_1 a pointer to a stucture representing the first map
- *
- * @param map_2 a pointer to a stucture representing the second map
-*/
-
-
-char * modify_lines(char *line_not_modified);
-
-/**
- * @brief Modify the way the char is written
-
- * Returns the *char modified, represented under several lines
- *
- * @param line_not_modified a *char represented by one only line
  */
 
 

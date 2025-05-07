@@ -14,9 +14,10 @@
 #include <stdlib.h>
 
 #include "linked_list_map.h"
+#include "solver.h"
 
 // utilitary functions goes here
-cell_map * go_to_position(linked_list_map list, int pos){
+cell_map * map_list_go_to_position(linked_list_map list, int pos){
     cell_map * p_current_cell = list;
 
     for (int i = 0; i < pos; i++) {
@@ -26,12 +27,22 @@ cell_map * go_to_position(linked_list_map list, int pos){
     return p_current_cell;
 }
 
+bool map_list_contains(linked_list_map list, my_map *map) {
+    for (cell_map *cur = list; cur != NULL; cur = cur->next) {
+        if (compare_maps(cur->map, map)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 // functions from the signature
-linked_list_map nil(){
+linked_list_map map_list_nil(){
     return NULL;
 }
 
-linked_list_map cons(linked_list_map list, my_map * MAP){
+linked_list_map map_list_cons(linked_list_map list, my_map * MAP){
     cell_map *p_new_cell = malloc(sizeof(cell_map));
 
     if (p_new_cell == NULL) {
@@ -44,7 +55,7 @@ linked_list_map cons(linked_list_map list, my_map * MAP){
     return p_new_cell;
 }
 
-int size(linked_list_map list){
+int map_list_size(linked_list_map list){
     int length = 0;
     cell_map * p_current_cell = list;
 
@@ -56,30 +67,30 @@ int size(linked_list_map list){
     return length;
 }
 
-bool is_empty(linked_list_map list){
+bool map_list_is_empty(linked_list_map list){
     return list == NULL;
 }
 
-my_map * get_element(linked_list_map list, int pos){
+my_map * map_list_get_element(linked_list_map list, int pos){
 
-    int length = size(list);
+    int length = map_list_size(list);
 
-    assert(! is_empty(list) && pos >= 0 && pos < length);
+    assert(! map_list_is_empty(list) && pos >= 0 && pos < length);
 
     // go to position
-    cell_map *p_cell = go_to_position(list, pos);
+    cell_map *p_cell = map_list_go_to_position(list, pos);
 
     return p_cell->map;
 }
 
-linked_list_map insert_element(linked_list_map list, int pos, my_map * MAP){
+linked_list_map map_list_insert_element(linked_list_map list, int pos, my_map * MAP){
     // not very efficient to use size function but...
-    int length = size(list);
+    int length = map_list_size(list);
 
     assert(pos >= 0 && pos <= length);
 
     if (pos == 0) {
-        return cons(list, MAP);
+        return map_list_cons(list, MAP);
     }
 
     cell_map *p_current_cell = list;
@@ -91,7 +102,7 @@ linked_list_map insert_element(linked_list_map list, int pos, my_map * MAP){
 
     p_new_cell->map = MAP;
 
-    p_current_cell = go_to_position(list, pos - 1);
+    p_current_cell = map_list_go_to_position(list, pos - 1);
 
     p_new_cell->next = p_current_cell->next;
     p_current_cell->next = p_new_cell;
@@ -99,14 +110,14 @@ linked_list_map insert_element(linked_list_map list, int pos, my_map * MAP){
     return list;
 }
 
-linked_list_map remove_element(linked_list_map list, int pos){
+linked_list_map map_list_remove_element(linked_list_map list, int pos){
 
     cell_map *p_current_cell = list;
     cell_map *p_old_cell     = NULL;
 
-    int length = size(list);
+    int length = map_list_size(list);
 
-    assert(! is_empty(list) && pos >= 0 && pos < length);
+    assert(! map_list_is_empty(list) && pos >= 0 && pos < length);
 
     if (pos == 0){
         linked_list_map tail = p_current_cell->next;
@@ -117,7 +128,7 @@ linked_list_map remove_element(linked_list_map list, int pos){
         return tail;
     }
 
-    p_current_cell = go_to_position(list, pos - 1);
+    p_current_cell = map_list_go_to_position(list, pos - 1);
     p_old_cell = p_current_cell->next;
     p_current_cell->next = p_old_cell->next;
 
@@ -127,7 +138,7 @@ linked_list_map remove_element(linked_list_map list, int pos){
     return list;
 }
 
-void deallocate_list(linked_list_map list){
+void map_list_deallocate_list(linked_list_map list){
 
     cell_map *p_temp_cell = NULL;
     cell_map *p_current_cell = list;

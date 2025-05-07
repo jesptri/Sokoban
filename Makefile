@@ -43,8 +43,8 @@ test-replay:test-replay.o sokoban.o loader.o
 replay:replay.o loader.o sokoban.o
 	$(CC) $(CFLAGS) -o replay replay.o loader.o sokoban.o
 
-linked_list_map:linked_list_map.o sokoban.o loader.o
-	$(CC) $(CFLAGS) -o linked_list_map linked_list_map.o sokoban.o loader.o
+linked_list_map:linked_list_map.o sokoban.o loader.o solver.o
+	$(CC) $(CFLAGS) -o linked_list_map linked_list_map.o sokoban.o loader.o solver.o
 
 test_linked_list_map:test_linked_list_map.o linked_list_map.o loader.o sokoban.o
 	$(CC) $(CFLAGS) -o test_linked_list_map test_linked_list_map.o linked_list_map.o loader.o sokoban.o
@@ -57,6 +57,12 @@ test_queue_map:test_queue_map.o queue_map.o loader.o sokoban.o
 
 play: play.o loader.o sokoban.o
 	$(CC) $(CFLAGS) -o play play.o loader.o sokoban.o
+
+solver: solver.o linked_list_map.o sokoban.o queue_map.o
+	$(CC) $(CFLAGS) -o solver solver.o linked_list_map.o sokoban.o queue_map.o
+
+test-solver:test-solver.o solver.o loader.o sokoban.o linked_list_map.o queue_map.o
+	$(CC) $(CFLAGS) -o test-solver test-solver.o solver.o loader.o sokoban.o linked_list_map.o queue_map.o
 
 example-string: example-string.o
 	$(CC) $(CFLAGS) -o example-string example-string.o

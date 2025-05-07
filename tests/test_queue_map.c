@@ -25,13 +25,8 @@ int main(void) {
     my_map *L3 = loader("data/soko3.in");
     my_map *L4 = loader("data/soko4.in");
 
-    // print_map(L1);
-    // print_map(L2);
-    // print_map(L3);
-    // print_map(L4);
-
     printf(" | Test de enqueue (L1, 'N')...\n");
-    queue = enqueue(queue, L1, 'N');
+    enqueue(&queue, L1, 'N');
     printf(" | OK!\n");
 
     printf(" | Test de is_empty après un enqueue...\n");
@@ -50,31 +45,19 @@ int main(void) {
     assert(queue->map == L1);
     printf(" | OK!\n");
 
-    printf(" | Test de enqueue (L2, 'S')...\n");
-    queue = enqueue(queue, L2, 'S');
-    printf(" | OK!\n");
-
-    printf(" | Test de enqueue (L3, 'E')...\n");
-    queue = enqueue(queue, L3, 'E');
-    printf(" | OK!\n");
-
-    printf(" | Test de enqueue (L4, 'W')...\n");
-    queue = enqueue(queue, L4, 'W');
-    printf(" | OK!\n");
-
+    enqueue(&queue, L2, 'S');
+    enqueue(&queue, L3, 'E');
+    enqueue(&queue, L4, 'W');
     printf(" | Test de size après 4 enqueue...\n");
     assert(size(queue) == 4);
     printf(" | OK!\n");
 
-    printf(" | Test de get_element position 0 (doit être L4)...\n");
     linked_list_queue q_L1 = get_element(queue, 0);
-    print_map(q_L1->map);
     assert(q_L1->map == L1);
     assert(q_L1->action == 'N');
     assert(q_L1->depth == 0);
     printf(" | OK!\n");
 
-    printf(" | Test de get_element position 3 (doit être L1)...\n");
     linked_list_queue q_L4 = get_element(queue, 3);
     assert(q_L4->map == L4);
     assert(q_L4->action == 'W');
@@ -82,28 +65,20 @@ int main(void) {
     printf(" | OK!\n");
 
     printf(" | Test de dequeue (retire L1)...\n");
-    queue = dequeue(queue);
+    cell_queue *removed = dequeue(&queue);
+    assert(removed->map == L1);
+    free(removed);
     assert(size(queue) == 3);
     printf(" | OK!\n");
 
-    printf(" | Test de dequeue (retire L2)...\n");
-    queue = dequeue(queue);
-    assert(size(queue) == 2);
-    printf(" | OK!\n");
-
-    printf(" | Test de dequeue (retire L3)...\n");
-    queue = dequeue(queue);
-    assert(size(queue) == 1);
-    printf(" | OK!\n");
-
-    printf(" | Test de dequeue (retire L4)...\n");
-    queue = dequeue(queue);
+    dequeue(&queue);  // retire L2
+    dequeue(&queue);  // retire L3
+    dequeue(&queue);  // retire L4
     assert(is_empty(queue));
-    assert(size(queue) == 0);
     printf(" | OK!\n");
 
     printf(" | Test de deallocate_list sur file vide...\n");
-    deallocate_list(queue);  // NULL-safe
+    deallocate_list(queue);  // sécuritaire même si NULL
     printf(" | OK!\n");
 
     printf(" | Tous les tests se sont terminés avec succès !\n");

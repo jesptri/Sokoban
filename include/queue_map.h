@@ -4,26 +4,17 @@
 
 typedef struct my_map my_map;
 
-typedef struct cell_queue cell_queue;
-
-struct cell_queue{
-
-    // a pointer to a map
-    my_map * map;
-    // a pointer to the mother cell of the considered cell
-    cell_queue * mother_cell;
-    // action that generated the considered cell
-    char action;  
-    // depth of the cell
+typedef struct cell_queue {
+    my_map *map;
+    struct cell_queue *mother_cell;
+    char action;
     int depth;
-    // a pointer to the next cell in the queue
-    cell_queue * next_cell;
+    struct cell_queue *next_cell;
+} cell_queue;
 
-};
+typedef cell_queue *linked_list_queue;
 
-typedef cell_queue * linked_list_queue;
-
-cell_queue * go_to_position(linked_list_queue list, int pos);
+cell_queue *go_to_position(linked_list_queue list, int pos);
 
 linked_list_queue nil();
 
@@ -33,8 +24,8 @@ bool is_empty(linked_list_queue list);
 
 linked_list_queue get_element(linked_list_queue list, int pos);
 
-linked_list_queue enqueue(linked_list_queue list, my_map * MAP, char action);
+void enqueue(linked_list_queue *list, my_map *MAP, char action);
 
-linked_list_queue dequeue(linked_list_queue list);
+cell_queue *dequeue(linked_list_queue *list);
 
 void deallocate_list(linked_list_queue list);

@@ -3,8 +3,6 @@
  *
  * @brief Simple definition of linked list containing `int` values
  *
- * @author Christophe Garion
- *
  * This is a simple definition of a linked list containing `int`
  * values implemented using cells linked by pointers. Warning: the cells
  * pointers should not be shared as deallocation of a linked list
@@ -60,11 +58,18 @@ struct cell_map{
 typedef cell_map * linked_list_map;
 
 /**
+ * @brief 
+ *
+ * @return 
+ */
+bool map_list_contains(linked_list_map list, my_map *map);
+
+/**
  * @brief Creates an empty list
  *
  * @return an empty list
  */
-linked_list_map nil();
+linked_list_map map_list_nil();
 
 /**
  * @brief Append an element at the beginning of a list
@@ -76,7 +81,7 @@ linked_list_map nil();
  *         parameter. The next cells are the ones of the list
  *         passed as parameter.
  */
-linked_list_map cons(linked_list_map list, my_map * MAP);
+linked_list_map map_list_cons(linked_list_map list, my_map * MAP);
 
 /**
  * @brief The length of a list
@@ -86,7 +91,7 @@ linked_list_map cons(linked_list_map list, my_map * MAP);
  * @return the length of the list (i.e. the number of distinct cells
  *         in the list)
  */
-int size(linked_list_map list);
+int map_list_size(linked_list_map list);
 
 /**
  * @brief Is the list empty?
@@ -95,7 +100,7 @@ int size(linked_list_map list);
  *
  * @return true is the list is empty, false else
  */
-bool is_empty(linked_list_map list);
+bool map_list_is_empty(linked_list_map list);
 
 /**
  * @brief Get an element in the list at a specified position
@@ -107,7 +112,7 @@ bool is_empty(linked_list_map list);
  *
  * @return the value stored at position `pos`
  */
-my_map * get_element(linked_list_map list, int pos);
+my_map * map_list_get_element(linked_list_map list, int pos);
 
 /**
  * @brief Insert an element in the list at a specified position
@@ -126,7 +131,7 @@ my_map * get_element(linked_list_map list, int pos);
  * @pre   `pos` should be comprised between 0 and the length of
  *         the list
  */
-linked_list_map insert_element(linked_list_map list, int pos, my_map * MAP);
+linked_list_map map_list_insert_element(linked_list_map list, int pos, my_map * MAP);
 
 /**
  * @brief Remove an element in the list at a specified position
@@ -143,7 +148,7 @@ linked_list_map insert_element(linked_list_map list, int pos, my_map * MAP);
  * @pre   `pos` should be comprised between 0 and the length of
  *         the list (excluded)
  */
-linked_list_map remove_element(linked_list_map list, int pos);
+linked_list_map map_list_remove_element(linked_list_map list, int pos);
 
 /**
  * @brief Deallocate a list
@@ -153,6 +158,6 @@ linked_list_map remove_element(linked_list_map list, int pos);
  * @post After the call to `deallocate_list`, all cells composing `list`
  *       are deallocated.
  */
-void deallocate_list(linked_list_map list);
+void map_list_deallocate_list(linked_list_map list);
 
 #endif
