@@ -18,21 +18,8 @@ bool is_in_explored_list(linked_list_queue list, my_map *map) {
     return false;
 }
 
-bool compare_maps(my_map *map1, my_map *map2) {
-    if (map1 == NULL || map2 == NULL) return false;
 
-    if (map1->width != map2->width || map1->height != map2->height) return false;
-
-    if (map1->hposition != map2->hposition || map1->vposition != map2->vposition) return false;
-
-    int size = map1->width * map1->height;
-    if (memcmp(map1->map, map2->map, size) != 0) return false;
-
-    return true;
-}
-
-
-bool is_winning_map(my_map * map){
+bool is_winning_map(my_map *map){
     // Check if the map is a winning plan
     for (int i = 0; i < map->width * map->height; i++){
         if (map->map[i] == '.') return false;
@@ -44,27 +31,29 @@ bool is_winning_map(my_map * map){
 
 char *solver(my_map *initial_map){
 
-    my_map *final_map = malloc(sizeof(my_map));
-    cell_queue *final_cell = malloc(sizeof(cell_queue));
+    // my_map *final_map = malloc(sizeof(my_map));
+    my_map *final_map = NULL;
+    // cell_queue *final_cell = malloc(sizeof(cell_queue));
+    cell_queue *final_cell = NULL;
 
 
     linked_list_queue search_queue = nil();
     linked_list_queue dequeued_queue = nil();
 
     linked_list_map explored_list = map_list_nil();
+    explored_list = map_list_insert_element(explored_list, 0, initial_map);
 
     enqueue(&search_queue, initial_map, ' ');
 
     while(!is_empty(search_queue)){
 
-        cell_queue *current_cell = malloc(sizeof(cell_queue));
-
         // dequeue the first element of the queue
-        current_cell = dequeue(&search_queue);
+        cell_queue *current_cell = dequeue(&search_queue);
+        if (current_cell == NULL) break;
 
         my_map *current_map = current_cell->map;
 
-        enqueue(&dequeued_queue, current_map, dequeued_queue->action);
+        enqueue(&dequeued_queue, current_map, current_cell->action);
 
         // check if the map is a winning plan
         if (is_winning_map(current_map)){
@@ -77,15 +66,17 @@ char *solver(my_map *initial_map){
 
         for (int i = 0; i < 4; i++){
             my_map *new_map = move(move_list[i], current_map);
+            if (new_map == NULL) break;
 
             if (map_list_contains(explored_list, new_map)){
-                free(new_map->map);
-                free(new_map);
                 continue;
             }
 
             explored_list = map_list_insert_element(explored_list, 0, new_map);
             enqueue(&search_queue, new_map, move_list[i]);
+
+            // free(new_map->map);
+            // free(new_map);
 
         }
 
@@ -104,18 +95,26 @@ char *solver(my_map *initial_map){
             i++;
         }
         path[i] = '\0';
+
+        // free the memory allocated for the queue and the explored list
+        map_list_deallocate_list(explored_list);
+        deallocate_list(search_queue);
+        deallocate_list(dequeued_queue);
+
+        // free(final_map->map);
+        // free(final_map);
+
+        // free(final_cell->map);
+        // free(final_cell);
+
         return path;
-    } else {
-        return NULL;
     }
 
-
-    // free the memory allocated for the queue and the explored list
-    deallocate_list(search_queue->mother_cell);
-    deallocate_list(search_queue->next_cell);
+    // Free memory in case of failure
     map_list_deallocate_list(explored_list);
-    free(search_queue);
-    free(dequeued_queue);
+    deallocate_list(search_queue);
+    deallocate_list(dequeued_queue);
+    free(final_cell);
 
     return NULL;
 

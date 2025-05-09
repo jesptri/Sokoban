@@ -23,13 +23,23 @@ clean:
 	$(CC) $(CFLAGS) -o $@ -c $^
 
 check-syntax: example-main.o read-file-formatted.o read-file-text.o \
-	write-fact.o test-dummy.o sokoban.o loader.o test-loader.o test-move.o test-replay.o replay.o play.o linked_list_map.o
+	write-fact.o test-dummy.o sokoban.o loader.o test-loader.o test-move.o test-replay.o test-solver.o replay.o play.o linked_list_map.o queue_map.o solver.o
 
 example-main: example-main.o
 	$(CC) $(CFLAGS) -o example-main example-main.o
 
+### FILES ###
+
 sokoban: sokoban.o replay.o loader.o
 	$(CC) $(CFLAGS) -o sokoban sokoban.o replay.o loader.o
+
+play: play.o loader.o sokoban.o
+	$(CC) $(CFLAGS) -o play play.o loader.o sokoban.o
+
+replay:replay.o loader.o sokoban.o
+	$(CC) $(CFLAGS) -o replay replay.o loader.o sokoban.o
+
+### TESTS ###
 
 test-loader: test-loader.o loader.o sokoban.o
 	$(CC) $(CFLAGS) -o test-loader test-loader.o loader.o sokoban.o
@@ -40,26 +50,11 @@ test-move:test-move.o sokoban.o loader.o
 test-replay:test-replay.o sokoban.o loader.o
 	$(CC) $(CFLAGS) -o test-replay test-replay.o sokoban.o loader.o
 
-replay:replay.o loader.o sokoban.o
-	$(CC) $(CFLAGS) -o replay replay.o loader.o sokoban.o
-
-linked_list_map:linked_list_map.o sokoban.o loader.o solver.o
-	$(CC) $(CFLAGS) -o linked_list_map linked_list_map.o sokoban.o loader.o solver.o
-
-test_linked_list_map:test_linked_list_map.o linked_list_map.o loader.o sokoban.o
-	$(CC) $(CFLAGS) -o test_linked_list_map test_linked_list_map.o linked_list_map.o loader.o sokoban.o
-
-queue_map:queue_map.o
-	$(CC) $(CFLAGS) -o queue_map queue_map.o
+test_linked_list_map:test_linked_list_map.o linked_list_map.o loader.o sokoban.o solver.o queue_map.o
+	$(CC) $(CFLAGS) -o test_linked_list_map test_linked_list_map.o linked_list_map.o loader.o sokoban.o solver.o queue_map.o
 
 test_queue_map:test_queue_map.o queue_map.o loader.o sokoban.o
 	$(CC) $(CFLAGS) -o test_queue_map test_queue_map.o queue_map.o loader.o sokoban.o
-
-play: play.o loader.o sokoban.o
-	$(CC) $(CFLAGS) -o play play.o loader.o sokoban.o
-
-solver: solver.o linked_list_map.o sokoban.o queue_map.o
-	$(CC) $(CFLAGS) -o solver solver.o linked_list_map.o sokoban.o queue_map.o
 
 test-solver:test-solver.o solver.o loader.o sokoban.o linked_list_map.o queue_map.o
 	$(CC) $(CFLAGS) -o test-solver test-solver.o solver.o loader.o sokoban.o linked_list_map.o queue_map.o
@@ -89,9 +84,9 @@ app-ex-gui: app-ex-gui.o gui.o loader.o sokoban.o
 
 # put all your applications and tests executables as prerequisite of this rule
 # \ allows to go to the next line
-compile-all: example-main read-file-formatted read-file-text \
-	app-ex-loader \
-	replay write-fact play test-dummy test-loader test-move test-replay
+compile-all: app-ex-gui app-ex-loader example-main read-file-formatted read-file-text write-fact \
+	sokoban play replay \
+	test-dummy test-loader test-move test-replay test_linked_list_map test_queue_map test-solver
 
 # add all your test executables in the following variable. You should respect
 # the order given in the project text

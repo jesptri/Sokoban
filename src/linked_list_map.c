@@ -12,11 +12,26 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "linked_list_map.h"
-#include "solver.h"
+#include "sokoban.h"
 
 // utilitary functions goes here
+
+bool compare_maps(my_map *map1, my_map *map2) {
+    if (map1 == NULL || map2 == NULL) return false;
+
+    if (map1->width != map2->width || map1->height != map2->height) return false;
+
+    if (map1->hposition != map2->hposition || map1->vposition != map2->vposition) return false;
+
+    int size = map1->width * map1->height;
+    if (memcmp(map1->map, map2->map, size) != 0) return false;
+
+    return true;
+}
+
 cell_map * map_list_go_to_position(linked_list_map list, int pos){
     cell_map * p_current_cell = list;
 
@@ -42,7 +57,7 @@ linked_list_map map_list_nil(){
     return NULL;
 }
 
-linked_list_map map_list_cons(linked_list_map list, my_map * MAP){
+linked_list_map map_list_cons(linked_list_map list, my_map *MAP){
     cell_map *p_new_cell = malloc(sizeof(cell_map));
 
     if (p_new_cell == NULL) {
@@ -71,7 +86,7 @@ bool map_list_is_empty(linked_list_map list){
     return list == NULL;
 }
 
-my_map * map_list_get_element(linked_list_map list, int pos){
+my_map *map_list_get_element(linked_list_map list, int pos){
 
     int length = map_list_size(list);
 
@@ -144,9 +159,13 @@ void map_list_deallocate_list(linked_list_map list){
     cell_map *p_current_cell = list;
 
     while (p_current_cell != NULL) {
-        p_temp_cell    = p_current_cell;
+        p_temp_cell = p_current_cell;
         p_current_cell = p_current_cell->next;
         free(p_temp_cell->map);
         free(p_temp_cell);
     }
 }
+
+// int main(void){
+//     return 0;
+// }

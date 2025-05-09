@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "queue_map.h"
 
 cell_queue *go_to_position(linked_list_queue list, int pos) {
@@ -75,3 +76,7 @@ void deallocate_list(linked_list_queue list) {
         cur = next;
     }
 }
+
+// int main(void){
+//     return 0;
+// }

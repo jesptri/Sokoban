@@ -38,11 +38,7 @@ my_map *move(char direction, my_map *p_map){
     int h = p_map->hposition;
     int v = p_map->vposition;
 
-    my_map *result = malloc(sizeof(my_map));
-    result->width = width;
-    result->height = height;
-
-    char *new_map = malloc(sizeof(char) * width * height);
+    char *new_map = malloc(sizeof(char) * width * height+1);
     for (int k = 0; k < width * height; k++){
         new_map[k] = p_map->map[k];
     }
@@ -54,9 +50,22 @@ my_map *move(char direction, my_map *p_map){
     else if (direction == 'W') dh = -1;
     else if (direction == 'E') dh = 1;
 
+    // Calcul des positions
     int current = v * width + h;
-    int next = (v + dv) * width + (h + dh);
-    int next2 = (v + 2 * dv) * width + (h + 2 * dh);
+    int nh = h + dh;
+    int nv = v + dv;
+    int nh2 = h + 2 * dh;
+    int nv2 = v + 2 * dv;
+
+    // Vérifie que next et next2 sont dans les bornes de la grille
+    if (nh < 0 || nh >= width || nv < 0 || nv >= height ||
+        nh2 < 0 || nh2 >= width || nv2 < 0 || nv2 >= height) {
+        free(new_map);
+        return p_map;
+    }
+
+    int next = nv * width + nh;
+    int next2 = nv2 * width + nh2;
 
     char cur_char = p_map->map[current];
     char next_char = p_map->map[next];
@@ -73,7 +82,6 @@ my_map *move(char direction, my_map *p_map){
     // Si mur => bloqué
     if (next_char == '#'){
         free(new_map);
-        free(result);
         return p_map;
     }
 
@@ -97,7 +105,6 @@ my_map *move(char direction, my_map *p_map){
             new_map[next2] = (next2_char == '.') ? '*' : '$';
         } else{
             free(new_map);
-            free(result);
             return p_map;
         }
     }
@@ -110,21 +117,23 @@ my_map *move(char direction, my_map *p_map){
             new_map[next2] = (next2_char == '.') ? '*' : '$';
         } else{
             free(new_map);
-            free(result);
             return p_map;
         }
     }
 
-    // Si rien de prévu, retour à l'identique
     else{
         free(new_map);
-        free(result);
         return p_map;
     }
 
+    my_map *result = malloc(sizeof(my_map));
+
+    result->width = width;
+    result->height = height;
     result->map = new_map;
     result->hposition = h + dh;
     result->vposition = v + dv;
+
     return result;
 }
 
@@ -181,9 +190,9 @@ bool check_victory(int width, int height, char *level){
 
 // function of the 5.4
 
-my_map * replay(my_map * map_arg, int L, char * moves){
+my_map *replay(my_map *map_arg, int L, char *moves){
     
-    my_map * current = malloc(sizeof(my_map));  
+    my_map *current = malloc(sizeof(my_map));  
 
     current->width = map_arg->width;
     current->height = map_arg->height;

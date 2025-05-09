@@ -18,6 +18,4 @@ struct stats{
 
 bool is_winning_map(my_map * map);
 
-bool compare_maps(my_map *map1, my_map *map2);
-
 char *solver(my_map *initial_map);

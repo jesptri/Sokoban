@@ -46,16 +46,18 @@ typedef struct my_map my_map;
 
 struct cell_map{
     /** the value in the cell */
-    my_map * map;
+    my_map *map;
     /** the next cell in the list */
-    cell_map * next;
+    cell_map *next;
 };
 
 /**
  * @brief An alias for the structure representing the
  *        linked list
  */
-typedef cell_map * linked_list_map;
+typedef cell_map *linked_list_map;
+
+bool compare_maps(my_map *map1, my_map *map2);
 
 /**
  * @brief 

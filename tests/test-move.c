@@ -174,7 +174,5 @@ int main(void) {
   free(map_box_blocked_E->map); 
   free(map_box_blocked_E);
 
-
-
   return 0;
 }

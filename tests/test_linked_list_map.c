@@ -9,29 +9,27 @@
 
 int main(void){
 
-    printf(" | test de linked_map...\n");
+    printf(" | Test de linked_map...\n");
 
-    linked_list_map l_map = malloc(sizeof(linked_list_map));
-
-    my_map * L_1 = malloc(sizeof(my_map));
-    my_map * L_2 = malloc(sizeof(my_map));
-    my_map * L = malloc(sizeof(my_map));
-
-    l_map = nil();
+    linked_list_map l_map = map_list_nil();
 
     // both * my_map constituting linked_list_map
 
-    L_1 = loader("data/soko1.in");
-    L_2 = loader("data/soko2.in");
+    my_map *L_1 = loader("data/soko1.in");
+    my_map *L_2 = loader("data/soko2.in");
 
-    l_map = cons(l_map, L_1);
-    l_map = cons(l_map, L_2);
+    l_map = map_list_cons(l_map, L_1);
+    l_map = map_list_cons(l_map, L_2);
     
-    L = get_element(l_map, 1);
+    my_map *L = map_list_get_element(l_map, 1);
 
     // checking if both my_map are similar
-
     assert(L_1->map == L->map);
+
+    free(L_1->map);
+    free(L_2->map);
+
+    map_list_deallocate_list(l_map);
 
     printf(" | OK!\n");
 

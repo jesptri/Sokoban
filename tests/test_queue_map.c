@@ -71,15 +71,24 @@ int main(void) {
     assert(size(queue) == 3);
     printf(" | OK!\n");
 
-    dequeue(&queue);  // retire L2
-    dequeue(&queue);  // retire L3
-    dequeue(&queue);  // retire L4
+    free(dequeue(&queue));  // retire L2
+    free(dequeue(&queue));  // retire L3
+    free(dequeue(&queue));  // retire L4
     assert(is_empty(queue));
     printf(" | OK!\n");
 
     printf(" | Test de deallocate_list sur file vide...\n");
     deallocate_list(queue);  // sécuritaire même si NULL
     printf(" | OK!\n");
+
+    free(L1->map);
+    free(L1);
+    free(L2->map);
+    free(L2);
+    free(L3->map);
+    free(L3);
+    free(L4->map);
+    free(L4);
 
     printf(" | Tous les tests se sont terminés avec succès !\n");
     return 0;

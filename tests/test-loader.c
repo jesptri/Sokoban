@@ -17,5 +17,8 @@ int main(void)
 
     printf(" | OK!\n");
 
+    free(result->map);
+    free(result);
+
     return 0;
 }
