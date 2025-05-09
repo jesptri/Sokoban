@@ -12,9 +12,14 @@ doc:
 	doxygen conf/doxygen.conf
 
 # rule to remove all .o files and all executables
+# clean:
+# 	- rm -f *.o
+# 	- find . -maxdepth 1 -executable -type f \( ! -name "Makefile" \) -delete
+
 clean:
 	- rm -f *.o
-	- find . -maxdepth 1 -executable -type f \( ! -name "Makefile" \) -delete
+	- find . -maxdepth 1 -type f ! -name "*.*" ! -name "Makefile" ! -name "README" -exec rm {} +
+
 
 %.o: ./src/%.c
 	$(CC) $(CFLAGS) -o $@ -c $^
