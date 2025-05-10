@@ -7,19 +7,19 @@
 #include "solver.h"
 
 int main() {
-    printf("Chargement de la map...\n");
+    printf("Loading the map...\n");
     my_map *map = loader("data/soko_dumb.in");
     assert(map != NULL);  // ← Stoppe ici si map est NULL
 
-    printf("Appel du solver...\n");
+    printf("Calling the solver...\n");
     char *solution = solver(map);
-    printf("Retour du solver.\n");
+    printf("Solver is back.\n");
 
     if (solution != NULL) {
-        printf("Plan trouvé : %s\n", solution);
+        printf("Solution found! %s\n", solution);
         free(solution);
     } else {
-        printf("Aucune solution trouvée.\n");
+        printf("No solution found.\n");
     }
 
     return 0;
