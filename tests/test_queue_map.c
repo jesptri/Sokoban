@@ -26,7 +26,7 @@ int main(void) {
     my_map *L4 = loader("data/soko4.in");
 
     printf(" | Test de enqueue (L1, 'N')...\n");
-    enqueue(&queue, L1, 'N');
+    enqueue(&queue, L1, 'N', NULL);
     printf(" | OK!\n");
 
     printf(" | Test de is_empty après un enqueue...\n");
@@ -45,9 +45,9 @@ int main(void) {
     assert(queue->map == L1);
     printf(" | OK!\n");
 
-    enqueue(&queue, L2, 'S');
-    enqueue(&queue, L3, 'E');
-    enqueue(&queue, L4, 'W');
+    enqueue(&queue, L2, 'S', queue);                       
+    enqueue(&queue, L3, 'E', queue->next_cell);             
+    enqueue(&queue, L4, 'W', queue->next_cell->next_cell);   
     printf(" | Test de size après 4 enqueue...\n");
     assert(size(queue) == 4);
     printf(" | OK!\n");

@@ -35,7 +35,7 @@ linked_list_queue get_element(linked_list_queue list, int pos) {
     return go_to_position(list, pos);
 }
 
-void enqueue(linked_list_queue *list, my_map *MAP, char action) {
+void enqueue(linked_list_queue *list, my_map *MAP, char action, cell_queue *mother) {
     cell_queue *new_cell = malloc(sizeof(cell_queue));
     if (!new_cell) {
         perror("malloc failed");
@@ -43,10 +43,12 @@ void enqueue(linked_list_queue *list, my_map *MAP, char action) {
     }
 
     new_cell->map = MAP;
-    new_cell->mother_cell = NULL;
+    new_cell->mother_cell = mother;
     new_cell->action = action;
-    new_cell->depth = size(*list);
+    new_cell->depth = (mother == NULL) ? 0 : mother->depth + 1;
     new_cell->next_cell = NULL;
+
+    printf("Enqueued: action=%c, depth=%d\n", action, new_cell->depth);
 
     if (*list == NULL) {
         *list = new_cell;

@@ -24,7 +24,7 @@ bool is_empty(linked_list_queue list);
 
 linked_list_queue get_element(linked_list_queue list, int pos);
 
-void enqueue(linked_list_queue *list, my_map *MAP, char action);
+void enqueue(linked_list_queue *list, my_map *MAP, char action, cell_queue *mother);
 
 cell_queue *dequeue(linked_list_queue *list);
 

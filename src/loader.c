@@ -108,7 +108,7 @@ int load_level(const char *filename, int *width, int *height, char **level, int 
         }
     }
 
-    free(level);
+    // free(level);
 
     fclose(file);
     return 1;
