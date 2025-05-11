@@ -161,7 +161,10 @@ void map_list_deallocate_list(linked_list_map list){
     while (p_current_cell != NULL) {
         p_temp_cell = p_current_cell;
         p_current_cell = p_current_cell->next;
-        free(p_temp_cell->map);
+        if(p_temp_cell->map != NULL){
+            free(p_temp_cell->map->map);
+            free(p_temp_cell->map);
+        }
         free(p_temp_cell);
     }
 }

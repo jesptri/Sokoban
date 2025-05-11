@@ -214,6 +214,8 @@ my_map *replay(my_map *map_arg, int L, char *moves){
         current = next;
     }
 
+    print_map(current);
+
     return current;
 
 }

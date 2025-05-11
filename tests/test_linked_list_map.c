@@ -26,9 +26,6 @@ int main(void){
     // checking if both my_map are similar
     assert(L_1->map == L->map);
 
-    free(L_1->map);
-    free(L_2->map);
-
     map_list_deallocate_list(l_map);
 
     printf(" | OK!\n");

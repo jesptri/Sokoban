@@ -48,7 +48,7 @@ void enqueue(linked_list_queue *list, my_map *MAP, char action, cell_queue *moth
     new_cell->depth = (mother == NULL) ? 0 : mother->depth + 1;
     new_cell->next_cell = NULL;
 
-    printf("Enqueued: action=%c, depth=%d\n", action, new_cell->depth);
+    // printf("Enqueued: action=%c, depth=%d\n", action, new_cell->depth);
 
     if (*list == NULL) {
         *list = new_cell;

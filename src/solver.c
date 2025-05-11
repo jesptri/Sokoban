@@ -18,6 +18,18 @@ bool is_in_explored_list(linked_list_queue list, my_map *map) {
     return false;
 }
 
+void free_solution_path(cell_queue *cell) {
+    while (cell != NULL) {
+        cell_queue *prev = cell->mother_cell;
+        if (cell->map != NULL) {
+            free(cell->map->map);
+            free(cell->map);
+        }
+        free(cell);
+        cell = prev;
+    }
+}
+
 
 bool is_winning_map(my_map *map){
 
@@ -32,9 +44,6 @@ bool is_winning_map(my_map *map){
 
 char *solver(my_map *initial_map){
 
-    printf("Initial map:\n");
-    print_map(initial_map);
-
     my_map *final_map = NULL;
     cell_queue *final_cell = NULL;
 
@@ -42,6 +51,8 @@ char *solver(my_map *initial_map){
     linked_list_queue dequeued_queue = nil();
 
     linked_list_map explored_list = map_list_nil();
+
+    printf("Inserted map at %p\n", (void*)initial_map);
     explored_list = map_list_insert_element(explored_list, 0, initial_map);
 
     enqueue(&search_queue, initial_map, ' ', NULL);
@@ -54,12 +65,7 @@ char *solver(my_map *initial_map){
 
         my_map *current_map = current_cell->map;
 
-        // printf("Current map:\n");
-        // print_map(current_map);
-
         enqueue(&dequeued_queue, current_map, current_cell->action, current_cell);
-
-        // printf("Is winning map or not ? %s\n", is_winning_map(current_map) ? "true" : "false");
 
         // check if the map is a winning plan
         if (is_winning_map(current_map)){
@@ -73,6 +79,7 @@ char *solver(my_map *initial_map){
         // enqueue all possible moves from the current map
 
         for (int i = 0; i < 4; i++){
+
             my_map *new_map = move(move_list[i], current_map);
 
             // printf("New map after move %c:\n", move_list[i]);
@@ -81,25 +88,26 @@ char *solver(my_map *initial_map){
             if (new_map == NULL) break;
 
             if (map_list_contains(explored_list, new_map)){
-                continue;
+                free(new_map->map);
+                free(new_map);
+            } else {
+
+                // printf("Map_list_insert_element inserted map at %p\n", (void*)new_map);
+                explored_list = map_list_insert_element(explored_list, 0, new_map);
+
+                // printf("Enqueue inserted map at %p\n", (void*)new_map);
+                enqueue(&search_queue, new_map, move_list[i], current_cell);
+
+                // free(new_map->map);
+                // free(new_map);
+
             }
-
-            explored_list = map_list_insert_element(explored_list, 0, new_map);
-            enqueue(&search_queue, new_map, move_list[i], current_cell);
-
-            // free(new_map->map);
-            // free(new_map);
 
         }
 
     }
 
-    printf("Final map:\n");
-    print_map(final_map);
-
     if (is_winning_map(final_map)){
-
-        printf("Depth of the winning map: %d\n", final_cell->depth);
 
         // reconstruct the path from the winning map to the initial map
         char *path = malloc(sizeof(char) * (final_cell->depth + 1));
@@ -107,14 +115,13 @@ char *solver(my_map *initial_map){
 
         while (final_cell->mother_cell != NULL) {
             path[i--] = final_cell->action;
-            printf("Action: %c\n", final_cell->action);
             final_cell = final_cell->mother_cell;
-            printf("path: %s\n", path);
         }
         path[final_cell->depth-1] = '\0';
 
         // free the memory allocated for the queue and the explored list
         map_list_deallocate_list(explored_list);
+
         deallocate_list(search_queue);
         deallocate_list(dequeued_queue);
 
@@ -123,9 +130,10 @@ char *solver(my_map *initial_map){
 
     // Free memory in case of failure
     map_list_deallocate_list(explored_list);
+
     deallocate_list(search_queue);
     deallocate_list(dequeued_queue);
-    free(final_cell);
+    free_solution_path(final_cell);
 
     return NULL;
 
