@@ -29,6 +29,14 @@ void print_map(my_map *MY_MAP){
 
 }
 
+// Fonction utilitaire pour mettre à jour la case du joueur actuel
+void clear_current(char *new_map, int current, char cur_char) {
+    if (cur_char == '+')
+        new_map[current] = '.';
+    else
+        new_map[current] = ' ';
+}
+
 // function of the 5.3
 
 my_map *move(char direction, my_map *p_map){
@@ -37,11 +45,6 @@ my_map *move(char direction, my_map *p_map){
     int width = p_map->width;
     int h = p_map->hposition;
     int v = p_map->vposition;
-
-    char *new_map = malloc(sizeof(char) * width * height+1);
-    for (int k = 0; k < width * height; k++){
-        new_map[k] = p_map->map[k];
-    }
 
     // Définir les décalages selon la direction
     int dh = 0, dv = 0;
@@ -60,7 +63,6 @@ my_map *move(char direction, my_map *p_map){
     // Vérifie que next et next2 sont dans les bornes de la grille
     if (nh < 0 || nh >= width || nv < 0 || nv >= height ||
         nh2 < 0 || nh2 >= width || nv2 < 0 || nv2 >= height) {
-        free(new_map);
         return p_map;
     }
 
@@ -71,36 +73,27 @@ my_map *move(char direction, my_map *p_map){
     char next_char = p_map->map[next];
     char next2_char = p_map->map[next2];
 
-    // Fonction utilitaire pour mettre à jour la case du joueur actuel
-    void clear_current(){
-        if (cur_char == '+')
-            new_map[current] = '.';
-        else
-            new_map[current] = ' ';
-    }
-
     // Si mur => bloqué
     if (next_char == '#'){
-        free(new_map);
-        return p_map;
+        return NULL;
     }
 
-    // Si case vide
+    char *new_map = malloc(sizeof(char) * width * height+1);
+    for (int k = 0; k < width * height; k++){
+        new_map[k] = p_map->map[k];
+    }
+
     if (next_char == ' '){
-        clear_current();
+        clear_current(new_map, current, cur_char);
         new_map[next] = '@';
     }
-
-    // Si cible
     else if (next_char == '.'){
-        clear_current();
+        clear_current(new_map, current, cur_char);
         new_map[next] = '+';
     }
-
-    // Si caisse simple
     else if (next_char == '$'){
         if (next2_char == ' ' || next2_char == '.'){
-            clear_current();
+        clear_current(new_map, current, cur_char);
             new_map[next] = '@';
             new_map[next2] = (next2_char == '.') ? '*' : '$';
         } else{
@@ -108,11 +101,9 @@ my_map *move(char direction, my_map *p_map){
             return p_map;
         }
     }
-
-    // Si caisse sur cible
     else if (next_char == '*'){
         if (next2_char == ' ' || next2_char == '.'){
-            clear_current();
+        clear_current(new_map, current, cur_char);
             new_map[next] = '+';
             new_map[next2] = (next2_char == '.') ? '*' : '$';
         } else{
@@ -120,7 +111,6 @@ my_map *move(char direction, my_map *p_map){
             return p_map;
         }
     }
-
     else{
         free(new_map);
         return p_map;
@@ -205,16 +195,16 @@ my_map *replay(my_map *map_arg, int L, char *moves){
     memcpy(current->map, map_arg->map, size);
     current->map[size] = '\0';
 
-    for (int k = 0 ; k < L ; k++){
-        my_map * next = move(moves[k], current);
+    for (int k = 0 ; k < L ; k++) {
+        my_map *next = move(moves[k], current);
 
-        // free(current->map);
-        // free(current);
+        if (next != current) {
+            free(current->map);
+            free(current);
+        }
 
         current = next;
     }
-
-    print_map(current);
 
     return current;
 

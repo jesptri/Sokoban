@@ -29,7 +29,7 @@ int main() {
         } else {
             printf("There is an issue, the plan does not lead to a winning map...\n");
         }
-        free(solution);
+
         free(replayed_map->map);
         free(replayed_map);
         free(map_second_call->map);
@@ -41,6 +41,7 @@ int main() {
 
     }
 
+    free(solution);
 
     return 0;
 }

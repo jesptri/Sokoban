@@ -85,15 +85,15 @@ char *solver(my_map *initial_map){
             // printf("New map after move %c:\n", move_list[i]);
             // print_map(new_map);
 
-            if (new_map == NULL) break;
+            if (new_map == NULL) continue;
 
             if (map_list_contains(explored_list, new_map)){
-                free(new_map->map);
-                free(new_map);
+                // free(new_map->map);
+                // free(new_map);
             } else {
 
                 // printf("Map_list_insert_element inserted map at %p\n", (void*)new_map);
-                explored_list = map_list_insert_element(explored_list, 0, new_map);
+                explored_list = map_list_cons(explored_list, new_map);
 
                 // printf("Enqueue inserted map at %p\n", (void*)new_map);
                 enqueue(&search_queue, new_map, move_list[i], current_cell);
@@ -124,6 +124,8 @@ char *solver(my_map *initial_map){
 
         deallocate_list(search_queue);
         deallocate_list(dequeued_queue);
+
+        // free_solution_path(final_cell);
 
         return path;
     }

@@ -60,6 +60,8 @@ linked_list_map map_list_nil(){
 linked_list_map map_list_cons(linked_list_map list, my_map *MAP){
     cell_map *p_new_cell = malloc(sizeof(cell_map));
 
+    
+
     if (p_new_cell == NULL) {
         printf("problem with creating cell in cons!\n");
     }
