@@ -1,0 +1,6 @@
+streamlit
+os
+subprocess
+PIL
+io
+base64
