@@ -1,5 +1,2 @@
 streamlit
-subprocess
-PIL
-io
-base64
+pillow
