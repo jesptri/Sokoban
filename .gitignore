@@ -4,9 +4,6 @@
 # === Executable files without extensions (built by gcc -o <name>) ===
 # Ignore all files in the root directory with no extension
 # except specific files like Makefile and README
-# This matches your 'clean' command in the Makefile:
-#   find . -maxdepth 1 -type f ! -name "*.*" ! -name "Makefile" ! -name "README"
-# Equivalent Git pattern:
  /[a-zA-Z0-9_-]*
 
 # But keep these explicitly:
