@@ -1,5 +1,8 @@
 #ifndef GUI_H
 #define GUI_H
+#include <SDL2/SDL.h>
+
+void GUI_save_screenshot(const char *filename, int width, int height);
 
 /**
  * @brief Close the GUI window.

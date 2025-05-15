@@ -44,6 +44,10 @@ play: play.o loader.o sokoban.o
 replay:replay.o loader.o sokoban.o
 	$(CC) $(CFLAGS) -o replay replay.o loader.o sokoban.o
 
+play_step: src/play_step.o loader.o sokoban.o
+	$(CC) $(CFLAGS) -o play_step src/play_step.o loader.o sokoban.o
+
+
 ### TESTS ###
 
 test-loader: test-loader.o loader.o sokoban.o

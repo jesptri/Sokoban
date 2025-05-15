@@ -46,6 +46,16 @@ static char* image_filename[] = {
     "images/yoshi-32-floor.bmp"
 };
 
+
+void GUI_save_screenshot(const char *filename, int width, int height) {
+    SDL_Surface* saveSurface = SDL_CreateRGBSurface(0, width * ICON_SIZE, height * ICON_SIZE, 32,
+        0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+    SDL_RenderReadPixels(renderer, NULL, SDL_PIXELFORMAT_ARGB8888, saveSurface->pixels, saveSurface->pitch);
+    SDL_SaveBMP(saveSurface, filename);
+    SDL_FreeSurface(saveSurface);
+}
+
+
 void GUI_close() {
 #ifdef GUI
     for (int obj = BOY; obj <= EMPTY; obj++) {
@@ -131,6 +141,9 @@ void GUI_show(int width, int height, char *level) {
     }
 
     SDL_RenderPresent(renderer);
+
+    GUI_save_screenshot("output.bmp", width, height);
+
 #endif
 }
 
