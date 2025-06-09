@@ -12,3 +12,7 @@
 
 # === VS Code configuration directory ===
 .vscode/
+
+# Other common files to ignore
+.streamlit/
+.env 
