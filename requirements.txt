@@ -1,2 +1,5 @@
 streamlit
 pillow
+sqlalchemy
+subprocess
+pydantic

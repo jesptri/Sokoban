@@ -1,5 +1,5 @@
 EXECUTABLE = "./play_step"
-IMAGE_DIR = "images"
+IMAGE_DIR = "modules/images"
 TILE_SIZE = (32, 32)
 
 # Mapping file name → level name

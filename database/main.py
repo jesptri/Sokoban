@@ -22,5 +22,16 @@ def add_result(result: schemas.ResultCreate, db: Session = Depends(get_db)):
     return crud.create_result(db, result)
 
 @app.get("/results/", response_model=List[schemas.ResultOut])
-def read_results(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+def get_results(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return crud.get_results(db, skip=skip, limit=limit)
+
+def get_saved_maps(level, player_name, skip: int = 0, limit: int = 100, db=None):
+    if db is None:
+        db = SessionLocal()
+    return (
+        db.query(models.Result)
+        .filter(models.Result.has_saved_game == True, models.Result.level == level)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )

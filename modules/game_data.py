@@ -5,13 +5,14 @@ from PIL import Image
 from io import BytesIO
 import base64
 
-from const import *
+from modules.const import *
 
 # Mise en cache des images converties en HTML <img>
 @st.cache_resource
 def load_tile_images():
     img_tags = {}
     for char, filename in TILE_MAP.items():
+        # print(IMAGE_DIR, filename)
         path = os.path.join(IMAGE_DIR, filename)
         if os.path.exists(path):
             img = Image.open(path).resize(TILE_SIZE)
@@ -42,6 +43,7 @@ def display_map(map_str, img_tags):
     html = ""
     for row in rows:
         for char in row:
+            # print("char: " + str(char))
             html += img_tags.get(char, img_tags.get(" ", "<span>?</span>"))
         html += "<br>"
     st.markdown(html, unsafe_allow_html=True)    
