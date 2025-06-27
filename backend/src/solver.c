@@ -30,7 +30,6 @@ void free_solution_path(cell_queue *cell) {
     }
 }
 
-
 bool is_winning_map(my_map *map){
 
     // Check if the map is a winning plan

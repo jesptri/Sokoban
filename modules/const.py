@@ -1,6 +1,6 @@
 EXECUTABLE = "./play_step"
 IMAGE_DIR = "modules/images"
-TILE_SIZE = (32, 32)
+TILE_SIZE = (40,40) #(32, 32)
 
 # Mapping file name → level name
 FILE_MAP = {
@@ -15,6 +15,8 @@ FILE_MAP = {
     "Level 8": "levels/level8.in",
 }
 
+LEVEL_NAMES_LIST = list(FILE_MAP.keys())
+
 # Mapping caractères → fichiers image
 TILE_MAP = {
     "#": "yoshi-32-bordered-wall.bmp",
@@ -25,3 +27,19 @@ TILE_MAP = {
     "+": "yoshi-32-worker-docked.bmp",
     "*": "yoshi-32-box-docked.bmp",
 }
+
+GAME_EXPLANATIONS = """
+🎮 **About your player ID:**
+
+You can play the game **without entering a username**. In that case, you’ll be automatically assigned to a **shared guest account**, which is used by everyone who plays anonymously. This means your scores will be mixed with other anonymous players.
+
+If you choose to enter a **custom username**, make sure to **remember and reuse it** in future sessions so your scores stay linked to your name.
+
+🧠 Please be **fair**: don’t use someone else’s username on purpose. Respecting others keeps the game fun for everyone!
+
+---
+
+ℹ️ **P.S.**: I intentionally chose **not to implement a password system**, as I believe it’s unnecessary for a casual game like this. The goal is to keep things light, fun, and accessible without the burden of account creation.
+"""
+
+TABS_NAMES = ["Play the game !", "Overall game stats"]
