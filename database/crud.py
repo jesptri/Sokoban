@@ -8,19 +8,29 @@ def create_result(db: Session, result: schemas.ResultCreate):
     db.refresh(db_result)
     return db_result
 
-def get_results(db: Session, username: str, skip: int = 0, limit: int = 10):
+def get_results(db: Session, player_name: str, skip: int = 0, limit: int = 10):
     return (db.query(models.Result)
-            .filter(models.Result.username == username)
+            .filter(models.Result.player_name == player_name)
             .order_by(models.Result.moves.desc())
             .offset(skip)
             .limit(limit)
             .all())
 
-def get_ranking_by_time(db: Session, username: str, level: str, skip: int = 0, limit: int = 10):
+def get_ranking_by_time(db: Session, level: int, skip: int = 0, limit: int = 10):
     return (
         db.query(models.Result)
-        .filter(models.Result.username == username and models.Result.username == level)
-        .order_by(models.Result.time.desc())
+        .filter(models.Result.level == level, models.Result.has_won == True)
+        .order_by(models.Result.time.asc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
+
+def get_ranking_by_moves(db: Session, level: int, skip: int = 0, limit: int = 10):
+    return (
+        db.query(models.Result)
+        .filter(models.Result.level == level, models.Result.has_won == True)
+        .order_by(models.Result.moves.asc())
         .offset(skip)
         .limit(limit)
         .all()

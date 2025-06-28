@@ -9,6 +9,7 @@ from frontend.play_game_tab import *
 
 from modules.utils import *
 from modules.game_data import *
+from modules.run_solvers import write_c_map_file, run_solver, parse_solver_output
 
 from database.schemas import *
 from database.main import add_result, get_saved_maps
@@ -120,7 +121,7 @@ def play_game(player_name, db):
             st.rerun()
 
     # Boutons restart / save
-    col_restart, col_save_game = st.columns(2)
+    col_restart, col_save_game, col_solve = st.columns(3)
 
     with col_restart:
         if st.button("🔄 Restart"):
@@ -147,3 +148,18 @@ def play_game(player_name, db):
             add_result(result, db)
             st.success("🎉 Game saved!")
             st.rerun()
+
+    with col_solve:
+        if st.button("🧩 Solve"):
+            # Prepare the map as a list of rows (strings)
+            map_rows = [row for row in output_lines[:-1]]  # Exclude the last line if it's not part of the map
+            solver_output = run_solver(map_rows)
+            solution, maps_explored = parse_solver_output(solver_output)
+            st.session_state["solver_solution"] = solution
+            st.session_state["solver_maps_explored"] = maps_explored
+            
+    if "solver_solution" in st.session_state and st.session_state["solver_solution"]:
+        st.info(f"**Solver path to victory:** {st.session_state['solver_solution']} ({st.session_state['solver_maps_explored']} maps explored)")
+    elif "solver_solution" in st.session_state:
+        st.warning("No solution found by the solver.")
+            
