@@ -28,7 +28,7 @@ IMG_TAGS = load_tile_images()
 def run_game(commands, level_path):
     try:
         result = subprocess.run(
-            [EXECUTABLE, level_path, commands],
+            [PLAY_EXECUTABLE, level_path, commands],
             capture_output=True,
             text=True,
             check=True

@@ -22,4 +22,4 @@ bool is_winning_map(my_map * map);
 
 void free_solution_path(cell_queue *cell);
 
-char *solver(my_map *initial_map);
+char *solver(my_map *initial_map, int *explored_count);

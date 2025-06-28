@@ -41,8 +41,8 @@ def play_game(player_name, db):
 
     level_path = FILE_MAP[selected_level]
 
-    if not os.path.exists(EXECUTABLE):
-        st.error(f"Executable not found at: {EXECUTABLE}")
+    if not os.path.exists(PLAY_EXECUTABLE):
+        st.error(f"Executable not found at: {PLAY_EXECUTABLE}")
         st.stop()
 
 

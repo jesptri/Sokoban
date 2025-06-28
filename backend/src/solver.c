@@ -41,7 +41,9 @@ bool is_winning_map(my_map *map){
     return true;
 }
 
-char *solver(my_map *initial_map){
+char *solver(my_map *initial_map, int *explored_count){
+
+    *explored_count = 0;
 
     my_map *final_map = NULL;
     cell_queue *final_cell = NULL;
@@ -51,8 +53,9 @@ char *solver(my_map *initial_map){
 
     linked_list_map explored_list = map_list_nil();
 
-    printf("Inserted map at %p\n", (void*)initial_map);
+    // printf("Inserted map at %p\n", (void*)initial_map);
     explored_list = map_list_insert_element(explored_list, 0, initial_map);
+    (*explored_count)++;
 
     enqueue(&search_queue, initial_map, ' ', NULL);
 
@@ -93,6 +96,7 @@ char *solver(my_map *initial_map){
 
                 // printf("Map_list_insert_element inserted map at %p\n", (void*)new_map);
                 explored_list = map_list_cons(explored_list, new_map);
+                (*explored_count)++;
 
                 // printf("Enqueue inserted map at %p\n", (void*)new_map);
                 enqueue(&search_queue, new_map, move_list[i], current_cell);

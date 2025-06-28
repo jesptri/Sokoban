@@ -13,7 +13,8 @@ int main() {
     assert(map != NULL);
 
     printf("Calling the solver...\n");
-    char *solution = solver(map);
+    int explored_count = 0;
+    char *solution = solver(map, &explored_count);
     printf("Solver is back.\n");
 
     if (solution != NULL) {

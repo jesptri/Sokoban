@@ -1,4 +1,6 @@
-EXECUTABLE = "./play_step"
+PLAY_EXECUTABLE = "./play_step"
+SOLVER_EXECUTABLE = "./solver"
+
 IMAGE_DIR = "modules/images"
 TILE_SIZE = (40,40) #(32, 32)
 

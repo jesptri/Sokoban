@@ -33,6 +33,10 @@ check-syntax: example-main.o read-file-formatted.o read-file-text.o \
 example-main: example-main.o
 	$(CC) $(CFLAGS) -o example-main example-main.o
 
+### HELPER FILES ###
+
+
+
 ### FILES ###
 
 sokoban: sokoban.o replay.o loader.o
@@ -47,6 +51,8 @@ replay:replay.o loader.o sokoban.o
 play_step: src/play_step.o loader.o sokoban.o
 	$(CC) $(CFLAGS) -o play_step src/play_step.o loader.o sokoban.o
 
+solve: solve.o sokoban.o solver.o loader.o linked_list_map.o queue_map.o
+	$(CC) $(CFLAGS) -o solve solve.o sokoban.o solver.o loader.o linked_list_map.o queue_map.o
 
 ### TESTS ###
 
@@ -94,7 +100,7 @@ app-ex-gui: app-ex-gui.o gui.o loader.o sokoban.o
 # put all your applications and tests executables as prerequisite of this rule
 # \ allows to go to the next line
 compile-all: app-ex-gui app-ex-loader example-main read-file-formatted read-file-text write-fact \
-	sokoban play replay \
+	sokoban play replay solve \
 	test-dummy test-loader test-move test-replay test_linked_list_map test_queue_map test-solver
 
 # add all your test executables in the following variable. You should respect
