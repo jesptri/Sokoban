@@ -3,7 +3,7 @@
 # EXECUTING EXPLANATION:
 To compile all files into executables, use the Makefile command : *make compile-all*.
 
-ISome example of uses:
+Some example of uses:
 
 Play function: ./play data/soko1.in
 
